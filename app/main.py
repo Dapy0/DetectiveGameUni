@@ -1,7 +1,8 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from typing import Dict, Any
-import pathlib
+
+from fastapi.middleware.cors import CORSMiddleware
 # from schema import NPCOutput, SCHEMA_FOR_OLLAMA
 # from app.services.client import send_request
 
@@ -14,6 +15,13 @@ app = FastAPI()
 app.include_router(npcRouter)
 app.include_router(sceneRouter)
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # можно указать ["http://localhost:3000"]
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 

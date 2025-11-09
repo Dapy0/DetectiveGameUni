@@ -2,11 +2,13 @@ from pathlib import Path
 from fastapi import APIRouter, HTTPException
 
 from app.schema import SceneLoadRequest, SceneLoadResponse
-from app.services.ollamaService import generate_structured_output
+from app.services.ollamaService import generateStructuredOutput
+from config import settings
 
 try:
 
-    SCENARIO = Path("assets/scenario_lore.txt").read_text(encoding="utf-8")
+    SCENARIO = (settings.PARENT_DIR / "assets" /
+                "scenarioLore.txt").read_text(encoding="utf-8")
 except Exception as e:
     print(f"Error in Scene Router:\n${e}")
 
@@ -34,14 +36,13 @@ def load_scene(data: SceneLoadRequest):
     Wygeneruj porywający opis, 2-3 postacie NPC i 1-2 interaktywne przedmioty.
     """
 
-    response = generate_structured_output(
+    response = generateStructuredOutput(
         systemPrompt,
         userPrompt,
         SceneLoadResponse
     )
 
-
-    print("Response from generate_structured_output:", response)
+    print("Тест:", response)
     if "error" in response:
         raise HTTPException(status_code=502, detail=response)
 

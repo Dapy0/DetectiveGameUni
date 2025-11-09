@@ -2,11 +2,8 @@ from pydantic import BaseModel, Field
 from typing import List, Optional
 
 
-class StateChange(BaseModel):
-    npc_morale: Optional[int] = None
-    quest_flag: Optional[str] = None
 
-
+# Npc Schemas
 class NPCChatResponse(BaseModel):
     speech: str
     action: str
@@ -20,11 +17,11 @@ class NPCChatRequest(BaseModel):
     npcName: str = Field()
     npcRole: str = Field()
 
+
 # Scene Schemas
 class SceneLoadRequest(BaseModel):
     locationName: str = Field()
     scenePrompt: str = Field()
-
 
 class SceneItem(BaseModel):
     name: str = Field()
@@ -37,26 +34,26 @@ class SceneNPC(BaseModel):
 
 
 class SceneLoadResponse(BaseModel):
-    scene_description: str = Field()
+    sceneDescription: str = Field()
     npcs: List[SceneNPC] = Field()
     items: List[SceneItem] = Field()
 
 
-SCHEMA_FOR_OLLAMA = {
-    "type": "object",
-    "properties": {
-        "speech": {"type": "string"},
-        "action": {"type": "string"},
-        "intent": {"type": "string"},
-        "state_change": {
-            "type": "object",
-            "properties": {
-                "npc_morale": {"type": "integer"},
-                "quest_flag": {"type": "string"}
-            },
-            "additionalProperties": True
-        }
-    },
-    "required": ["speech", "action", "intent"],
-    "additionalProperties": False
-}
+# SCHEMA_FOR_OLLAMA = {
+#     "type": "object",
+#     "properties": {
+#         "speech": {"type": "string"},
+#         "action": {"type": "string"},
+#         "intent": {"type": "string"},
+#         "state_change": {
+#             "type": "object",
+#             "properties": {
+#                 "npc_morale": {"type": "integer"},
+#                 "quest_flag": {"type": "string"}
+#             },
+#             "additionalProperties": True
+#         }
+#     },
+#     "required": ["speech", "action", "intent"],
+#     "additionalProperties": False
+# }
